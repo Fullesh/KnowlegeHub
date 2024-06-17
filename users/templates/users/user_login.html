@@ -1,10 +1,25 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Pass</title>
-</head>
-<body>
+{% extends 'users/base.html' %}
+{% load static %}
 
-</body>
-</html>
+{% block content %}
+<div class="container">
+    <form method="post" action="" enctype="multipart/form-data" class="form-floating">
+        <div class="row text-start">
+            <div class="col-lg-3 col-md-6 col-sm-12 mx-auto">
+                <div class="card mb-4 box-shadow mx-auto">
+                    <div class="card-header text-center">
+                        <h4 class="my-0 font-weight-normal">Вход</h4>
+                    </div>
+                    <div class="card-body text-center">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <button type="submit" href="{% url 'users:confirm' %}" class="btn btn-block btn-outline-primary">Войти</button>
+                        <div class="row"></div>
+                        <p>Ещё не зарегистрированы? <a class="btn btn-link" href="{% url 'users:register' %}">Зарегистрироваться</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}
