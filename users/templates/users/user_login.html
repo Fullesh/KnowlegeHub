@@ -13,7 +13,11 @@
                     <div class="card-body text-center">
                         {% csrf_token %}
                         {{ form.as_p }}
-                        <button type="submit" href="{% url 'users:confirm' %}" class="btn btn-block btn-outline-primary">Войти</button>
+                        {% if user.is_verified %}
+                        <button type="submit" href="{% url 'homepage:homepage' %}" class="btn btn-block btn-outline-primary">Войти</button>
+                        {% else %}
+                        <button type="submit" href="{% url 'users:otp_confirm' %}" class="btn btn-block btn-outline-primary">Войти</button>
+                        {% endif %}
                         <div class="row"></div>
                         <p>Ещё не зарегистрированы? <a class="btn btn-link" href="{% url 'users:register' %}">Зарегистрироваться</a></p>
                     </div>
