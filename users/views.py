@@ -1,5 +1,7 @@
 import random
 
+from django.contrib import messages
+from django.contrib.auth.views import LoginView
 from django.core.mail import send_mail
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
@@ -17,7 +19,9 @@ CHARS = '1234567890'
 
 
 class HomePageView(TemplateView):
+    model = User
     template_name = 'users/home.html'
+    context_object_name = 'user'
 
 
 class RegisterView(CreateView):
@@ -64,12 +68,22 @@ class OTPConfirmView(View):
                 user.save()
                 return HttpResponseRedirect(reverse('users:login'))
             else:
-                return render(request, self.template_name, {'error': 'Invalid OTP code'})
+                return render(request, self.template_name, {'error': 'Неверный код подтверждения'})
         except User.DoesNotExist:
-            return render(request, self.template_name, {'error': 'User does not exist'})
+            return render(request, self.template_name, {'error': 'Пользователь не существует'})
 
 
 class UserDetailView(DetailView):
     model = User
-    template_name = 'users/users_detail.html'
-    context_object_name = 'objects_list'
+    template_name = 'users/user_detail.html'
+    context_object_name = 'user'
+
+
+class MyLoginView(LoginView):
+    redirect_authenticated_user = True
+    context_object_name = 'user'
+    template_name = 'users/user_login.html'
+
+    def form_invalid(self, form):
+        messages.error(self.request, 'Неверное имя пользователя или пароль')
+        return self.render_to_response(self.get_context_data(form=form))
