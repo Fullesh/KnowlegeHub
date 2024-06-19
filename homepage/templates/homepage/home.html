@@ -39,7 +39,11 @@
                         <p>Образование без воспитания - мечь в руках сумасшедшего</p>
                         <footer class="blockquote-footer">Д.И. Менделеев
                             <div class="card-footer text-center">
-                                <p>{{user.is_authenticated}}</p>
+                                {% if user.is_verified %}
+                                <p>Verify</p>
+                                {% else %}
+                                <p>Not</p>
+                                {% endif %}
                             </div>
                         </footer>
                     </blockquote>
