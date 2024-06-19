@@ -7,6 +7,7 @@
 <div class="row">
     <div class="col-12">
         <div class="col-6 mx-auto">
+            {% if not user.is_authenticated %}
             <div class="card">
                 <div class="card-header">
                     Цитата
@@ -16,16 +17,35 @@
                         <p>Великая цель образования - это не знания, а действия</p>
                         <footer class="blockquote-footer">Герберт Спенсер
                             <div class="card-footer text-center">
-                                {% if users.is_authenticated %}
-                                {% else %}
                                 <a href="#" class="btn btn-primary">Войти</a>
                                 <a href="#" class="btn btn-primary">Регистрация</a>
+                                {% if user.is_verified %}
+                                <p>Verif</p>
+                                {% else %}
+                                <p>Not</p>
                                 {% endif %}
                             </div>
                         </footer>
                     </blockquote>
                 </div>
             </div>
+            {% else %}
+            <div class="card">
+                <div class="card-header">
+                    Цитата
+                </div>
+                <div class="card-body">
+                    <blockquote class="blockquote mb-0">
+                        <p>Образование без воспитания - мечь в руках сумасшедшего</p>
+                        <footer class="blockquote-footer">Д.И. Менделеев
+                            <div class="card-footer text-center">
+                                <p>{{user.is_authenticated}}</p>
+                            </div>
+                        </footer>
+                    </blockquote>
+                </div>
+            </div>
+            {% endif %}
         </div>
     </div>
 </div>
