@@ -17,9 +17,7 @@ CHARS = '1234567890'
 
 
 class HomePageView(TemplateView):
-    model = User
     template_name = 'users/home.html'
-    context_object_name = 'objects_list'
 
 
 class RegisterView(CreateView):
