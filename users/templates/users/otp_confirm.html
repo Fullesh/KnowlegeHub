@@ -1,22 +1,28 @@
+{% extends 'users/base.html' %}
+{% load static %}
+
+{% block content %}
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>OTP Confirmation</title>
-</head>
 <body>
-    <h1>Подтверждение OTP</h1>
-    <form method="post">
-        {% csrf_token %}
-        <label for="otp_code">Введите код OTP:</label>
-        <input type="text" id="otp_code" name="otp_code" required>
-        <input type="hidden" name="user_id" value="{{ user.pk }}">
-        <h1>{{user.pk}}</h1>
-        <button type="submit">Подтвердить</button>
-    </form>
-    {% if error %}
+<div class="text-center">
+    <h1>Подтверждение почты</h1>
+</div>
+<div class="row">
+    <div class="col-12 text-center">
+        <form method="post">
+            {% csrf_token %}
+            <label for="otp_code">Введите код подтверждения отправленный на e-mail:</label>
+            <input type="text" id="otp_code" name="otp_code" required>
+            <input type="hidden" name="user_id" value="{{ user.pk }}">
+            <div class="col-3 mx-auto p-3">
+                <button class="btn btn-success" type="submit">Подтвердить</button>
+                <a href="{% url 'homepage:homepage' %}" class="btn btn-primary">Назад</a>
+            </div>
+        </form>
+        {% if error %}
         <p style="color: red;">{{ error }}</p>
-        <p style="color: red;">{{ user.pk }}</p>
-    {% endif %}
+        {% endif %}
+    </div>
+</div>
 </body>
-</html>
+{% endblock %}
