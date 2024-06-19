@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>OTP Confirmation</title>
+</head>
+<body>
+    <h1>Подтверждение OTP</h1>
+    <form method="post">
+        {% csrf_token %}
+        <label for="otp_code">Введите код OTP:</label>
+        <input type="text" id="otp_code" name="otp_code" required>
+        <input type="hidden" name="user_id" value="{{ user.pk }}">
+        <h1>{{user.pk}}</h1>
+        <button type="submit">Подтвердить</button>
+    </form>
+    {% if error %}
+        <p style="color: red;">{{ error }}</p>
+        <p style="color: red;">{{ user.pk }}</p>
+    {% endif %}
+</body>
+</html>
