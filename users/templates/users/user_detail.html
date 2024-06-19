@@ -1,6 +1,5 @@
-{% extends 'e_mail_app/base.html' %}
+{% extends 'users/base.html' %}
 {% load static %}
-{% load image_tag %}
 
 {% block content %}
 <div class="row">
@@ -8,9 +7,12 @@
         <div class="card mx-auto" style="width: 18rem;">
             <div class="card-body mx-20">
                 <form method="post" enctype="multipart/form-data"></form>
-                <h5 class="card-title">{% object.email %}</h5>
-                <p class="card-text">{% image_tag object.image %}</p>
-<!--                <a href="{% url 'users:manager_users' %}" class="btn btn-md btn-outline-primary mx-auto">Назад</a>-->
+                <h5 class="card-title">{{user.email}}</h5>
+                <h6 class="card-text">User Verificated: {{user.is_verified}} User Token: {{user.token}}</h6>
+                {% if not user.is_verified %}
+                <h6>Ваш профиль не подтверждён. Подтвердите адрес электронной почты</h6>
+                <a href="{% url 'users:otp_confirm'%}" class="btn btn-sm btn-outline-secondary">Верифицировать</a>
+                {% endif %}
             </div>
         </div>
     </div>
