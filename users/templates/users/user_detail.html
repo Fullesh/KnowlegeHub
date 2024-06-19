@@ -1,0 +1,18 @@
+{% extends 'e_mail_app/base.html' %}
+{% load static %}
+{% load image_tag %}
+
+{% block content %}
+<div class="row">
+    <div class="col-2 mx-auto">
+        <div class="card mx-auto" style="width: 18rem;">
+            <div class="card-body mx-20">
+                <form method="post" enctype="multipart/form-data"></form>
+                <h5 class="card-title">{% object.email %}</h5>
+                <p class="card-text">{% image_tag object.image %}</p>
+<!--                <a href="{% url 'users:manager_users' %}" class="btn btn-md btn-outline-primary mx-auto">Назад</a>-->
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
