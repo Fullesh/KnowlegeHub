@@ -1,20 +1,31 @@
 {% extends 'users/base.html' %}
 {% load static %}
 
+
 {% block content %}
-<div class="row">
-    <div class="col-2 mx-auto">
-        <div class="card mx-auto" style="width: 18rem;">
-            <div class="card-body mx-20">
-                <form method="post" enctype="multipart/form-data"></form>
-                <h5 class="card-title">{{user.email}}</h5>
-                <h6 class="card-text">User Verificated: {{user.is_verified}} User Token: {{user.token}}</h6>
-                {% if not user.is_verified %}
-                <h6>Ваш профиль не подтверждён. Подтвердите адрес электронной почты</h6>
-                <a href="{% url 'users:otp_confirm'%}" class="btn btn-sm btn-outline-secondary">Верифицировать</a>
-                {% endif %}
+<div class="container">
+    <form method="post" action="" enctype="multipart/form-data" class="form-floating">
+        <div class="row text-start">
+            <div class="col-lg-3 col-md-6 col-sm-12 mx-auto">
+                <div class="card mb-4 box-shadow mx-auto">
+                    <div class="card-header text-center">
+                        <h4 class="my-0 font-weight-normal">Профиль</h4>
+                    </div>
+                    <div class="card-body text-center">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <button type="submit" class="btn btn-block btn-outline-primary">Сохранить</button>
+                    </div>
+                    {% if not user.is_superuser %}
+                    <a href="{% url 'users:delete' user.pk%}" class="btn btn-block btn-danger">Удалить</a>
+                    {% endif %}
+                    {% if not user.is_verified %}
+                    <p class="text-center p-2">Подтвердите E-mail, пожалуйста</p>
+                    <a href="{% url 'users:otp_confirm' %}" class="btn btn-block btn-success">Подтвердить</a>
+                    {% endif %}
+                </div>
             </div>
         </div>
-    </div>
+    </form>
 </div>
 {% endblock %}
