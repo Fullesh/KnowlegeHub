@@ -1,0 +1,22 @@
+{% extends 'users/base.html' %}
+
+{% block content %}
+<div class="col-12 d-flex justify-content-center">
+    <div class="row mx-auto">
+        <div class="col-6">
+            <div class="card">
+                <div class="card-body">
+                    <form method="post">
+                        {% csrf_token %}
+                        <p>Вы действительно хотите удалить профиль? После вы сможете зарегестрироваться
+                            повторно.</p>
+                        <button type="submit" class="btn btn-danger">Потвердить</button>
+                        <a href="{% url 'homepage:homepage' %}" class="btn btn-success">Отмена</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
