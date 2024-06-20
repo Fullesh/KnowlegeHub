@@ -8,6 +8,7 @@ from materials.serializers import MaterialSerializer, LessonSerializer, Subscrip
 
 # Create your views here.
 
+
 class MaterialsListAPIView(ListAPIView):
     serializer_class = MaterialSerializer
     queryset = EducationModule.objects.all()
@@ -15,11 +16,6 @@ class MaterialsListAPIView(ListAPIView):
 
 class MaterialsCreateAPIView(CreateAPIView):
     serializer_class = MaterialSerializer
-
-    def perform_create(self, serializer):
-        new_material = serializer.save()
-        new_material.owner = self.request.user
-        new_material.save()
 
 
 class MaterialsUpdateAPIView(UpdateAPIView):
