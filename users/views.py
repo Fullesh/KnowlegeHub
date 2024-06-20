@@ -3,25 +3,18 @@ import random
 from django.contrib import messages
 from django.contrib.auth.views import LoginView
 from django.core.mail import send_mail
-from django.http import HttpResponseRedirect
 from django.shortcuts import render
-from django.urls import reverse_lazy, reverse
+from django.urls import reverse_lazy
 from django.views import View
-from django.views.generic import TemplateView, CreateView, DetailView
+from django.views.generic import CreateView, DeleteView, UpdateView
 
 from config import settings
-from users.forms import UserRegisterForm
+from users.forms import UserRegisterForm, UserProfileForm
 from users.models import User
 
 CHARS = '1234567890'
 
 # Create your views here.
-
-
-class HomePageView(TemplateView):
-    model = User
-    template_name = 'users/home.html'
-    context_object_name = 'user'
 
 
 class RegisterView(CreateView):
@@ -72,10 +65,14 @@ class OTPConfirmView(View):
             return render(request, self.template_name, {'error': 'Пользователь не существует'})
 
 
-class UserDetailView(DetailView):
+class UserDetailView(UpdateView):
     model = User
+    form_class = UserProfileForm
     template_name = 'users/user_detail.html'
-    context_object_name = 'user'
+    success_url = reverse_lazy('users:detail')
+
+    def get_object(self, queryset=None):
+        return self.request.user
 
 
 class MyLoginView(LoginView):
@@ -86,3 +83,9 @@ class MyLoginView(LoginView):
     def form_invalid(self, form):
         messages.error(self.request, 'Неверное имя пользователя или пароль')
         return self.render_to_response(self.get_context_data(form=form))
+
+
+class UserDeleteView(DeleteView):
+    model = User
+    template_name = 'users/user_delete_confirm.html'
+    success_url = reverse_lazy('homepage:homepage')
