@@ -59,14 +59,13 @@ class OTPConfirmView(View):
     def post(self, request, *args, **kwargs):
         otp_code = request.POST.get('otp_code')
         user_id = request.POST.get('user_id')
-        print(user_id)
 
         try:
             user = User.objects.get(id=user_id)
             if user.token == otp_code:
                 user.is_verified = True
                 user.save()
-                return HttpResponseRedirect(reverse('users:login'))
+                return render(request, 'users/user_confirm_success.html')
             else:
                 return render(request, self.template_name, {'error': 'Неверный код подтверждения'})
         except User.DoesNotExist:
