@@ -3,8 +3,8 @@ import random
 from django.contrib import messages
 from django.contrib.auth.views import LoginView
 from django.core.mail import send_mail
-from django.shortcuts import render
-from django.urls import reverse_lazy
+from django.shortcuts import render, get_object_or_404, redirect
+from django.urls import reverse_lazy, reverse
 from django.views import View
 from django.views.generic import CreateView, DeleteView, UpdateView
 
@@ -89,3 +89,25 @@ class UserDeleteView(DeleteView):
     model = User
     template_name = 'users/user_delete_confirm.html'
     success_url = reverse_lazy('homepage:homepage')
+
+
+def res_password(request):
+    new_password = ''
+    if request.method == 'POST':
+        email = request.POST['email']
+        try:
+            user = get_object_or_404(User, email=email)
+        except user.DoesNotExist:
+            messages.error(request, 'Пользователя с данным E-mail не существует')
+        for i in range(10):
+            new_password += random.choice(CHARS)
+        send_mail(
+            subject='Смена пароля',
+            message=f'Ваш новый пароль {new_password}',
+            from_email=settings.DEFAULT_FROM_EMAIL,
+            recipient_list=[user.email]
+        )
+        user.set_password(new_password)
+        user.save()
+        return redirect(reverse('users:login'))
+    return render(request, 'users/user_password_reset.html')
