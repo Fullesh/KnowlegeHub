@@ -98,7 +98,8 @@ def res_password(request):
         try:
             user = get_object_or_404(User, email=email)
         except user.DoesNotExist:
-            messages.error(request, 'Пользователя с данным E-mail не существует')
+            messages.error(request, 'Пользователя с данным '
+                                    'E-mail не существует')
         for i in range(10):
             new_password += random.choice(CHARS)
         send_mail(
