@@ -1,4 +1,3 @@
-from django.contrib.auth import authenticate
 from django.test import TestCase
 from django.urls import reverse
 from rest_framework import status
@@ -79,3 +78,16 @@ class UsersTestCase(TestCase):
         response = self.client.delete(url)
         self.assertEqual(response.status_code, status.HTTP_302_FOUND)
         self.assertEqual(User.objects.all().count(), 0)
+
+    def test_user_password_reset_exists(self):
+        url = reverse('users:reset_password')
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_user_password_reset(self):
+        url = reverse('users:reset_password')
+        data = {
+            'email': 'admin@service.py'
+        }
+        response = self.client.post(url, data=data)
+        self.assertEqual(response.status_code, status.HTTP_302_FOUND)
