@@ -13,6 +13,8 @@ class EducationModule(models.Model):
     name = models.CharField(max_length=50, verbose_name="Название", **NULLABLE)
     description = models.TextField(verbose_name="Описание", **NULLABLE)
     preview = models.ImageField(upload_to='materials/module_preview', verbose_name="Превью", **NULLABLE)
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='Владелец модуля',
+                              **NULLABLE)
 
     def __str__(self):
         return f'{self.name} {self.owner}'
@@ -27,7 +29,10 @@ class Lesson(models.Model):
     description = models.TextField(verbose_name='Описание')
     preview = models.ImageField(upload_to='materials/lessons_preview/', verbose_name='Превью урока', **NULLABLE)
     URL = models.URLField(verbose_name='URL')
-    education_module = models.ForeignKey(EducationModule, on_delete=models.CASCADE, verbose_name='Курс', **NULLABLE)
+    education_module = models.ForeignKey(EducationModule, on_delete=models.CASCADE, verbose_name='Курс',
+                                         **NULLABLE)
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='Владелец урока',
+                              **NULLABLE)
 
     def __str__(self):
         return f'{self.title} {self.URL} {self.course}'
