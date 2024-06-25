@@ -22,12 +22,6 @@ class MaterialsCreateAPIView(CreateAPIView):
     serializer_class = MaterialSerializer
     permission_classes = [IsAdminUser]
 
-    def perform_create(self, serializer):
-        new_material = serializer.save()
-        new_material.owner = self.request.user
-        new_material.save()
-
-
 class MaterialsUpdateAPIView(UpdateAPIView):
     serializer_class = MaterialSerializer
     queryset = EducationModule.objects.all()
@@ -54,11 +48,6 @@ class LessonsCreateAPIView(CreateAPIView):
     serializer_class = LessonSerializer
     queryset = Lesson.objects.all()
     permission_classes = [IsAdminUser]
-
-    def perform_create(self, serializer):
-        new_lesson = serializer.save()
-        new_lesson.owner = self.request.user
-        new_lesson.save()
 
 
 class LessonsUpdateAPIView(UpdateAPIView):
